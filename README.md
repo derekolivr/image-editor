@@ -1,6 +1,6 @@
 # Web Photo Editor
 
-A modern, web-based photo editor built with React, TypeScript, Vite, and Fabric.js.
+A modern, web-based photo editor built with React, TypeScript, Vite, and Fabric.js. This project was developed as an application for a technical competition, focusing on frontend engineering and user experience.
 
 ## Features
 
@@ -17,7 +17,7 @@ A modern, web-based photo editor built with React, TypeScript, Vite, and Fabric.
 
 - **Core:** React 18, TypeScript, Vite
 - **Canvas:** Fabric.js
-- **UI:** Tailwind CSS, Shadcn/ui
+- **UI:** Tailwind CSS
 - **State Management:** Zustand
 
 ## Setup Instructions
