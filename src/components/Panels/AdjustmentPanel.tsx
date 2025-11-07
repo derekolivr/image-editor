@@ -2,12 +2,12 @@ import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { applyBrightness, applyContrast, applyBlur } from "@/utils/imageFilters";
 import { debounce } from "@/lib/utils";
-import { useCallback } from "react";
+import { useMemo } from "react";
 
 export const AdjustmentPanel = () => {
-  const debouncedApplyBrightness = useCallback(debounce(applyBrightness, 100), []);
-  const debouncedApplyContrast = useCallback(debounce(applyContrast, 100), []);
-  const debouncedApplyBlur = useCallback(debounce(applyBlur, 100), []);
+  const handleBrightnessChange = useMemo(() => debounce((value: number) => applyBrightness(value), 100), []);
+  const handleContrastChange = useMemo(() => debounce((value: number) => applyContrast(value), 100), []);
+  const handleBlurChange = useMemo(() => debounce((value: number) => applyBlur(value), 100), []);
 
   return (
     <div className="p-4 space-y-4">
@@ -19,7 +19,7 @@ export const AdjustmentPanel = () => {
           min={-100}
           max={100}
           step={1}
-          onValueChange={(value) => debouncedApplyBrightness(value[0])}
+          onValueChange={(value) => handleBrightnessChange(value[0])}
         />
       </div>
       <div className="space-y-2">
@@ -30,7 +30,7 @@ export const AdjustmentPanel = () => {
           min={-100}
           max={100}
           step={1}
-          onValueChange={(value) => debouncedApplyContrast(value[0])}
+          onValueChange={(value) => handleContrastChange(value[0])}
         />
       </div>
       <div className="space-y-2">
@@ -41,7 +41,7 @@ export const AdjustmentPanel = () => {
           min={0}
           max={100}
           step={1}
-          onValueChange={(value) => debouncedApplyBlur(value[0])}
+          onValueChange={(value) => handleBlurChange(value[0])}
         />
       </div>
     </div>

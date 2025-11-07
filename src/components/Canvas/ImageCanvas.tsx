@@ -21,7 +21,9 @@ export const ImageCanvas = () => {
       });
       setCanvas(canvasInstance);
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       canvasInstance.on("selection:created", (e: any) => setSelection(e.target || null));
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       canvasInstance.on("selection:updated", (e: any) => setSelection(e.target || null));
       canvasInstance.on("selection:cleared", () => setSelection(null));
 

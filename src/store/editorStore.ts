@@ -5,7 +5,7 @@ import fabric from 'fabric';
 // This is a placeholder for now.
 type HistoryEntry = {
     id: string;
-    canvasState: any; // Fabric canvas JSON
+    canvasState: string; // Fabric canvas JSON
 };
 
 export interface EditorState {

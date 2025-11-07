@@ -35,7 +35,7 @@ export const applyBlur = (value: number) => {
 
     if (selection) {
         // Simplified masked blur: clone, filter, and clip.
-        image.clone(((cloned: fabric.Image) => {
+        image.clone((cloned: fabric.Image) => {
             cloned.filters = [new fabric.filters.Blur({ blur: blurValue })];
             cloned.applyFilters();
 
@@ -43,7 +43,7 @@ export const applyBlur = (value: number) => {
 
             canvas.add(cloned);
             addToHistory();
-        }) as any);
+        });
     } else {
         // Apply to whole image
         const filter = new fabric.filters.Blur({ blur: blurValue });
