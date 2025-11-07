@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import fabric from 'fabric';
+import * as fabric from 'fabric';
 
 // Note: A real HistoryEntry would be more complex.
 // This is a placeholder for now.

@@ -1,7 +1,5 @@
-import { Slider } from "@/components/ui/slider";
-import { Label } from "@/components/ui/label";
 import { applyBrightness, applyContrast, applyBlur } from "@/utils/imageFilters";
-import { debounce } from "@/lib/utils";
+import { debounce } from "@/utils/debounce";
 import { useMemo } from "react";
 
 export const AdjustmentPanel = () => {
@@ -12,36 +10,39 @@ export const AdjustmentPanel = () => {
   return (
     <div className="p-4 space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="brightness">Brightness</Label>
-        <Slider
+        <label htmlFor="brightness">Brightness</label>
+        <input
           id="brightness"
-          defaultValue={[0]}
+          type="range"
+          defaultValue={0}
           min={-100}
           max={100}
           step={1}
-          onValueChange={(value) => handleBrightnessChange(value[0])}
+          onChange={(e) => handleBrightnessChange(Number(e.target.value))}
         />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="contrast">Contrast</Label>
-        <Slider
+        <label htmlFor="contrast">Contrast</label>
+        <input
           id="contrast"
-          defaultValue={[0]}
+          type="range"
+          defaultValue={0}
           min={-100}
           max={100}
           step={1}
-          onValueChange={(value) => handleContrastChange(value[0])}
+          onChange={(e) => handleContrastChange(Number(e.target.value))}
         />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="blur">Blur</Label>
-        <Slider
+        <label htmlFor="blur">Blur</label>
+        <input
           id="blur"
-          defaultValue={[0]}
+          type="range"
+          defaultValue={0}
           min={0}
           max={100}
           step={1}
-          onValueChange={(value) => handleBlurChange(value[0])}
+          onChange={(e) => handleBlurChange(Number(e.target.value))}
         />
       </div>
     </div>

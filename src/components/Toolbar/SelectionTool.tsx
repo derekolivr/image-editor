@@ -1,5 +1,5 @@
 import { useEditorStore } from "@/store/editorStore";
-import fabric from "fabric";
+import * as fabric from "fabric";
 
 export const SelectionTool = () => {
   const { canvas } = useEditorStore();
@@ -26,7 +26,7 @@ export const SelectionTool = () => {
   };
 
   return (
-    <button onClick={enterSelectionMode} className="p-2 bg-secondary rounded">
+    <button onClick={enterSelectionMode} className="p-2 bg-gray-200 rounded hover:bg-gray-300">
       Select
     </button>
   );

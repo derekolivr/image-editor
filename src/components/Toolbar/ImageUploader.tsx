@@ -1,5 +1,5 @@
 import { useEditorStore } from "@/store/editorStore";
-import fabric from "fabric";
+import * as fabric from "fabric";
 import type { ChangeEvent } from "react";
 import { initializeFilters } from "@/utils/imageFilters";
 
@@ -32,7 +32,7 @@ export const ImageUploader = () => {
   return (
     <div>
       <input type="file" id="image-upload" accept="image/*" onChange={handleImageUpload} className="hidden" />
-      <label htmlFor="image-upload" className="bg-primary text-primary-foreground p-2 rounded cursor-pointer">
+      <label htmlFor="image-upload" className="bg-blue-600 text-white p-2 rounded cursor-pointer hover:bg-blue-700">
         Upload Image
       </label>
     </div>

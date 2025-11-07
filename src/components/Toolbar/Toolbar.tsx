@@ -7,7 +7,7 @@ import { ExportTool } from "./ExportTool";
 
 export const Toolbar = () => {
   return (
-    <div className="bg-muted p-2 flex items-center gap-4">
+    <div className="bg-white p-2 flex items-center gap-4 border-b">
       <ImageUploader />
       <CropTool />
       <RotateTool />

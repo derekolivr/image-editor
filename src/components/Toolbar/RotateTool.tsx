@@ -26,16 +26,16 @@ export const RotateTool = () => {
 
   return (
     <div className="flex gap-2">
-      <button onClick={() => rotate(-90)} className="p-2 bg-secondary rounded">
+      <button onClick={() => rotate(-90)} className="p-2 bg-gray-200 rounded hover:bg-gray-300">
         Rotate Left
       </button>
-      <button onClick={() => rotate(90)} className="p-2 bg-secondary rounded">
+      <button onClick={() => rotate(90)} className="p-2 bg-gray-200 rounded hover:bg-gray-300">
         Rotate Right
       </button>
-      <button onClick={() => flip("x")} className="p-2 bg-secondary rounded">
+      <button onClick={() => flip("x")} className="p-2 bg-gray-200 rounded hover:bg-gray-300">
         Flip Horizontal
       </button>
-      <button onClick={() => flip("y")} className="p-2 bg-secondary rounded">
+      <button onClick={() => flip("y")} className="p-2 bg-gray-200 rounded hover:bg-gray-300">
         Flip Vertical
       </button>
     </div>

@@ -1,5 +1,4 @@
 import { useEditorStore } from "@/store/editorStore";
-import { Button } from "@/components/ui/button";
 
 export const ExportTool = () => {
   const { canvas } = useEditorStore();
@@ -21,5 +20,9 @@ export const ExportTool = () => {
     }
   };
 
-  return <Button onClick={handleExport}>Export as PNG</Button>;
+  return (
+    <button onClick={handleExport} className="p-2 bg-blue-500 text-white rounded">
+      Export as PNG
+    </button>
+  );
 };

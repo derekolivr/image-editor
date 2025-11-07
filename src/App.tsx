@@ -4,8 +4,8 @@ import { Toolbar } from "@/components/Toolbar/Toolbar";
 
 function App() {
   return (
-    <div className="bg-background text-foreground min-h-screen flex flex-col">
-      <header className="p-4 border-b">
+    <div className="bg-gray-100 text-gray-900 min-h-screen flex flex-col">
+      <header className="p-4 border-b bg-white">
         <h1 className="text-2xl font-bold">Photo Editor</h1>
       </header>
       <Toolbar />

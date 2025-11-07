@@ -31,10 +31,18 @@ export const HistoryTool = () => {
 
   return (
     <div className="flex gap-2">
-      <button onClick={undo} disabled={!canUndo} className="p-2 bg-secondary rounded disabled:opacity-50">
+      <button
+        onClick={undo}
+        disabled={!canUndo}
+        className="p-2 bg-gray-200 rounded disabled:opacity-50 hover:bg-gray-300"
+      >
         Undo
       </button>
-      <button onClick={redo} disabled={!canRedo} className="p-2 bg-secondary rounded disabled:opacity-50">
+      <button
+        onClick={redo}
+        disabled={!canRedo}
+        className="p-2 bg-gray-200 rounded disabled:opacity-50 hover:bg-gray-300"
+      >
         Redo
       </button>
     </div>

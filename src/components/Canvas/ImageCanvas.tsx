@@ -1,16 +1,14 @@
 import { useEffect, useRef } from "react";
-import fabric from "fabric";
+import * as fabric from "fabric";
 import { useEditorStore, type EditorState } from "@/store/editorStore";
 import { addCropRectangle, removeCropRectangle } from "@/utils/CropRectangle";
 
 export const ImageCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { canvas, setCanvas, isCropping, setSelection } = useEditorStore((state: EditorState) => ({
-    canvas: state.canvas,
-    setCanvas: state.setCanvas,
-    isCropping: state.isCropping,
-    setSelection: state.setSelection,
-  }));
+  const canvas = useEditorStore((state: EditorState) => state.canvas);
+  const setCanvas = useEditorStore((state: EditorState) => state.setCanvas);
+  const isCropping = useEditorStore((state: EditorState) => state.isCropping);
+  const setSelection = useEditorStore((state: EditorState) => state.setSelection);
 
   useEffect(() => {
     if (canvasRef.current) {
