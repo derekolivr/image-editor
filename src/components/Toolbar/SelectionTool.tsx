@@ -1,33 +1,58 @@
 import { useEditorStore } from "@/store/editorStore";
 import * as fabric from "fabric";
+import { ToolbarButton } from "./ToolbarButton";
+import { Square, XCircle } from "lucide-react";
 
 export const SelectionTool = () => {
-  const { canvas } = useEditorStore();
+  const { canvas, selection, setSelection } = useEditorStore();
 
-  const enterSelectionMode = () => {
-    if (canvas) {
-      const rect = new fabric.Rect({
-        left: 100,
-        top: 100,
-        width: 200,
-        height: 150,
-        fill: "rgba(0,0,0,0.3)",
-        stroke: "#ccc",
-        strokeDashArray: [4, 4],
-        cornerColor: "#f0f0f0",
-        cornerSize: 10,
-        transparentCorners: false,
-        cornerStyle: "circle",
-      });
-      canvas.add(rect);
-      canvas.setActiveObject(rect);
-      canvas.renderAll();
+  const createSelection = () => {
+    if (!canvas) return;
+
+    // Clear any existing selection first
+    if (selection) {
+      canvas.remove(selection);
     }
+
+    const rect = new fabric.Rect({
+      left: 100,
+      top: 100,
+      width: 200,
+      height: 200,
+      fill: "rgba(59, 130, 246, 0.2)",
+      stroke: "#3b82f6",
+      strokeWidth: 2,
+      strokeDashArray: [5, 5],
+      selectable: true,
+      hasControls: true,
+      hasBorders: true,
+    });
+
+    canvas.add(rect);
+    canvas.setActiveObject(rect);
+    setSelection(rect);
+    canvas.renderAll();
+  };
+
+  const clearSelection = () => {
+    if (!canvas || !selection) return;
+
+    canvas.remove(selection);
+    setSelection(null);
+    canvas.discardActiveObject();
+    canvas.renderAll();
   };
 
   return (
-    <button onClick={enterSelectionMode} className="p-2 bg-gray-200 rounded hover:bg-gray-300">
-      Select
-    </button>
+    <div className="flex items-center gap-4">
+      <ToolbarButton onClick={createSelection} label="Create Selection">
+        <Square className="h-5 w-5" />
+      </ToolbarButton>
+      {selection && (
+        <ToolbarButton onClick={clearSelection} label="Clear Selection">
+          <XCircle className="h-5 w-5" />
+        </ToolbarButton>
+      )}
+    </div>
   );
 };

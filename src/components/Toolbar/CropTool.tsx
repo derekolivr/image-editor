@@ -1,13 +1,11 @@
 import { useEditorStore } from "@/store/editorStore";
 import { getCropRectangle } from "@/utils/CropRectangle";
 import * as fabric from "fabric";
+import { ToolbarButton } from "./ToolbarButton";
+import { Scissors, Check, X } from "lucide-react";
 
 export const CropTool = () => {
   const { isCropping, setIsCropping, canvas, image, setImage, addToHistory } = useEditorStore();
-
-  const handleCrop = () => {
-    setIsCropping(!isCropping);
-  };
 
   const applyCrop = () => {
     const cropRect = getCropRectangle();
@@ -39,21 +37,22 @@ export const CropTool = () => {
     setIsCropping(false);
   };
 
+  if (isCropping) {
+    return (
+      <div className="flex items-center gap-4">
+        <ToolbarButton onClick={applyCrop} label="Apply Crop">
+          <Check className="h-5 w-5 text-green-600" />
+        </ToolbarButton>
+        <ToolbarButton onClick={cancelCrop} label="Cancel Crop">
+          <X className="h-5 w-5 text-red-600" />
+        </ToolbarButton>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex gap-2">
-      <button onClick={handleCrop} className="p-2 rounded bg-gray-200 hover:bg-gray-300">
-        {isCropping ? "Exit Crop Mode" : "Crop"}
-      </button>
-      {isCropping && (
-        <>
-          <button onClick={applyCrop} className="p-2 rounded bg-blue-600 text-white hover:bg-blue-700">
-            Apply
-          </button>
-          <button onClick={cancelCrop} className="p-2 rounded bg-red-600 text-white hover:bg-red-700">
-            Cancel
-          </button>
-        </>
-      )}
-    </div>
+    <ToolbarButton onClick={() => setIsCropping(true)} label="Crop">
+      <Scissors className="h-5 w-5" />
+    </ToolbarButton>
   );
 };

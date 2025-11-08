@@ -1,4 +1,6 @@
 import { useEditorStore } from "@/store/editorStore";
+import { ToolbarButton } from "./ToolbarButton";
+import { Download } from "lucide-react";
 
 export const ExportTool = () => {
   const { canvas } = useEditorStore();
@@ -21,8 +23,8 @@ export const ExportTool = () => {
   };
 
   return (
-    <button onClick={handleExport} className="p-2 bg-blue-500 text-white rounded">
-      Export as PNG
-    </button>
+    <ToolbarButton onClick={handleExport} label="Export as PNG">
+      <Download className="h-5 w-5" />
+    </ToolbarButton>
   );
 };

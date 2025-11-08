@@ -1,5 +1,7 @@
 import { useEditorStore } from "@/store/editorStore";
 import { useEffect } from "react";
+import { ToolbarButton } from "./ToolbarButton";
+import { Undo2, Redo2 } from "lucide-react";
 
 export const HistoryTool = () => {
   const { undo, redo, historyIndex, history } = useEditorStore();
@@ -30,21 +32,13 @@ export const HistoryTool = () => {
   }, [undo, redo]);
 
   return (
-    <div className="flex gap-2">
-      <button
-        onClick={undo}
-        disabled={!canUndo}
-        className="p-2 bg-gray-200 rounded disabled:opacity-50 hover:bg-gray-300"
-      >
-        Undo
-      </button>
-      <button
-        onClick={redo}
-        disabled={!canRedo}
-        className="p-2 bg-gray-200 rounded disabled:opacity-50 hover:bg-gray-300"
-      >
-        Redo
-      </button>
+    <div className="flex items-center gap-4">
+      <ToolbarButton onClick={undo} disabled={!canUndo} label="Undo">
+        <Undo2 className="h-5 w-5" />
+      </ToolbarButton>
+      <ToolbarButton onClick={redo} disabled={!canRedo} label="Redo">
+        <Redo2 className="h-5 w-5" />
+      </ToolbarButton>
     </div>
   );
 };

@@ -12,21 +12,41 @@ export const ImageCanvas = () => {
 
   useEffect(() => {
     if (canvasRef.current) {
-      const canvasInstance = new fabric.Canvas(canvasRef.current, {
+      const canvas = new fabric.Canvas(canvasRef.current, {
         width: 800,
         height: 600,
-        backgroundColor: "#f0f0f0",
+        backgroundColor: "#4b5563", // gray-600
       });
-      setCanvas(canvasInstance);
+      setCanvas(canvas);
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      canvasInstance.on("selection:created", (e: any) => setSelection(e.target || null));
+      canvas.on("selection:created", (e: any) => {
+        const target = e.target;
+        // Only track rectangle selections, not the main image
+        if (target && target.type === "rect") {
+          setSelection(target);
+        }
+      });
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      canvasInstance.on("selection:updated", (e: any) => setSelection(e.target || null));
-      canvasInstance.on("selection:cleared", () => setSelection(null));
+      canvas.on("selection:updated", (e: any) => {
+        const target = e.target;
+        if (target && target.type === "rect") {
+          setSelection(target);
+        }
+      });
+
+      canvas.on("selection:cleared", () => {
+        const { selection } = useEditorStore.getState();
+        // When selection is cleared, remove the rectangle from canvas
+        if (selection) {
+          canvas.remove(selection);
+          setSelection(null);
+        }
+      });
 
       return () => {
-        canvasInstance.dispose();
+        canvas.dispose();
         setCanvas(null);
       };
     }
@@ -42,5 +62,5 @@ export const ImageCanvas = () => {
     }
   }, [isCropping, canvas]);
 
-  return <canvas ref={canvasRef} />;
+  return <canvas ref={canvasRef} className="border border-gray-500 shadow-lg" />;
 };

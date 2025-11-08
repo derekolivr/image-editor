@@ -1,4 +1,6 @@
 import { useEditorStore } from "@/store/editorStore";
+import { ToolbarButton } from "./ToolbarButton";
+import { RotateCcw, RotateCw, FlipHorizontal, FlipVertical } from "lucide-react";
 
 export const RotateTool = () => {
   const { canvas, image, addToHistory } = useEditorStore();
@@ -25,19 +27,19 @@ export const RotateTool = () => {
   };
 
   return (
-    <div className="flex gap-2">
-      <button onClick={() => rotate(-90)} className="p-2 bg-gray-200 rounded hover:bg-gray-300">
-        Rotate Left
-      </button>
-      <button onClick={() => rotate(90)} className="p-2 bg-gray-200 rounded hover:bg-gray-300">
-        Rotate Right
-      </button>
-      <button onClick={() => flip("x")} className="p-2 bg-gray-200 rounded hover:bg-gray-300">
-        Flip Horizontal
-      </button>
-      <button onClick={() => flip("y")} className="p-2 bg-gray-200 rounded hover:bg-gray-300">
-        Flip Vertical
-      </button>
+    <div className="flex items-center gap-4">
+      <ToolbarButton onClick={() => rotate(-90)} label="Rotate Left">
+        <RotateCcw className="h-5 w-5" />
+      </ToolbarButton>
+      <ToolbarButton onClick={() => rotate(90)} label="Rotate Right">
+        <RotateCw className="h-5 w-5" />
+      </ToolbarButton>
+      <ToolbarButton onClick={() => flip("x")} label="Flip Horizontal">
+        <FlipHorizontal className="h-5 w-5" />
+      </ToolbarButton>
+      <ToolbarButton onClick={() => flip("y")} label="Flip Vertical">
+        <FlipVertical className="h-5 w-5" />
+      </ToolbarButton>
     </div>
   );
 };
