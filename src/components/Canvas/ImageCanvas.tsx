@@ -38,12 +38,9 @@ export const ImageCanvas = () => {
       });
 
       canvas.on("selection:cleared", () => {
-        const { selection } = useEditorStore.getState();
-        // When selection is cleared, remove the rectangle from canvas
-        if (selection) {
-          canvas.remove(selection);
-          setSelection(null);
-        }
+        // When selection is cleared, just update the store
+        // Don't automatically remove selection rectangles
+        setSelection(null);
       });
 
       // Ensure image stays at back whenever objects are modified

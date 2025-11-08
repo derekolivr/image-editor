@@ -9,12 +9,10 @@ import {
 } from "@/utils/imageFilters";
 import { debounce } from "@/utils/debounce";
 import { useMemo, useState } from "react";
-import { useEditorStore } from "@/store/editorStore";
 
 export const AdjustmentPanel = () => {
   const [isGrayscale, setIsGrayscale] = useState(false);
   const [isSepia, setIsSepia] = useState(false);
-  const { selection } = useEditorStore();
 
   const handleBrightnessChange = useMemo(() => debounce((value: number) => applyBrightness(value), 100), []);
   const handleContrastChange = useMemo(() => debounce((value: number) => applyContrast(value), 100), []);
@@ -52,12 +50,6 @@ export const AdjustmentPanel = () => {
 
   return (
     <div className="p-4 space-y-4">
-      {selection && (
-        <div className="mb-4 p-3 bg-blue-600 rounded-md">
-          <p className="text-sm font-medium text-white">✓ Region Selected</p>
-          <p className="text-xs text-blue-100 mt-1">Filters will apply only to the selected area</p>
-        </div>
-      )}
       <div className="space-y-6">
         <div className="space-y-2">
           <label htmlFor="brightness" className="text-sm font-medium">

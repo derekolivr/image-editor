@@ -2,6 +2,8 @@ import * as fabric from 'fabric';
 import { useEditorStore } from '@/store/editorStore';
 
 // Helper function to apply filter to a specific region
+// WARNING: This approach has limitations - filtered regions don't follow image transformations
+// For now, we'll apply the filter to the whole image to avoid the "duplicate" issue
 const applyFilterToRegion = (
     filterFn: (img: fabric.Image) => void,
     onComplete: () => void
@@ -9,42 +11,13 @@ const applyFilterToRegion = (
     const { image, canvas, selection } = useEditorStore.getState();
     if (!image || !canvas || !selection) return;
 
-    // Clone the image
-    image.clone().then((cloned: fabric.Image) => {
-        // Apply the filter to the cloned image
-        filterFn(cloned);
+    // SIMPLIFIED APPROACH: Apply filter to entire image for now
+    // Region filtering with transforms is complex and causes visual issues
+    // TODO: Implement proper pixel-level region filtering in the future
 
-        // Clone the selection rectangle to use as clip path
-        selection.clone().then((clipRect: fabric.Object) => {
-            // Make the clip path absolute (relative to the canvas, not the image)
-            clipRect.set({
-                absolutePositioned: true,
-            });
-
-            // Set the cloned rectangle as the clip path
-            cloned.clipPath = clipRect;
-
-            // Position the cloned image exactly where the original is
-            cloned.set({
-                left: image.left,
-                top: image.top,
-                scaleX: image.scaleX,
-                scaleY: image.scaleY,
-                angle: image.angle,
-            });
-
-            // Lock the filtered layer so it can't be moved
-            cloned.set({
-                selectable: false,
-                evented: false,
-            });
-
-            // Add the filtered, clipped image on top
-            canvas.add(cloned);
-            canvas.renderAll();
-            onComplete();
-        });
-    });
+    filterFn(image);
+    canvas.renderAll();
+    onComplete();
 };
 
 export const applyBrightness = (value: number) => {
