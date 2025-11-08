@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import * as fabric from 'fabric';
+import { restoreCanvasState } from '@/utils/canvasHelpers';
 
 type HistoryEntry = {
     id: string;
@@ -102,11 +103,8 @@ export const useEditorStore = create<EditorState>((set, get) => ({
 
         // Load the previous state
         canvas.loadFromJSON(prevState.canvasState).then(() => {
-            // Update the image reference in the store
-            const objects = canvas.getObjects();
-            const imageObj = objects.find((obj) => obj.type === 'image') as fabric.Image;
-
-            canvas.renderAll();
+            // Restore proper canvas state (lock image, ensure z-order)
+            const imageObj = restoreCanvasState(canvas);
 
             if (imageObj) {
                 set({ image: imageObj, historyIndex: newIndex });
@@ -133,11 +131,8 @@ export const useEditorStore = create<EditorState>((set, get) => ({
 
         // Load the next state
         canvas.loadFromJSON(nextState.canvasState).then(() => {
-            // Update the image reference in the store
-            const objects = canvas.getObjects();
-            const imageObj = objects.find((obj) => obj.type === 'image') as fabric.Image;
-
-            canvas.renderAll();
+            // Restore proper canvas state (lock image, ensure z-order)
+            const imageObj = restoreCanvasState(canvas);
 
             if (imageObj) {
                 set({ image: imageObj, historyIndex: newIndex });
@@ -164,11 +159,8 @@ export const useEditorStore = create<EditorState>((set, get) => ({
 
         // Load the original state
         canvas.loadFromJSON(originalState).then(() => {
-            // Update the image reference in the store
-            const objects = canvas.getObjects();
-            const imageObj = objects.find((obj) => obj.type === 'image') as fabric.Image;
-
-            canvas.renderAll();
+            // Restore proper canvas state (lock image, ensure z-order)
+            const imageObj = restoreCanvasState(canvas);
 
             if (imageObj) {
                 set({ image: imageObj });
