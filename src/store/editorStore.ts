@@ -18,6 +18,8 @@ type PerformanceMetrics = {
     maxFilterTime: number | null;
 };
 
+type Orientation = 'horizontal' | 'vertical';
+
 export interface EditorState {
     image: fabric.Image | null;
     canvas: fabric.Canvas | null;
@@ -28,12 +30,16 @@ export interface EditorState {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     originalState: Record<string, any> | null;
     performanceMetrics: PerformanceMetrics;
+    orientation: Orientation;
+    originalImageDimensions: { width: number; height: number } | null;
     setCanvas: (canvas: fabric.Canvas | null) => void;
     setImage: (image: fabric.Image | null) => void;
     setIsCropping: (isCropping: boolean) => void;
     setSelection: (selection: fabric.Object | null) => void;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setOriginalState: (state: Record<string, any> | null) => void;
+    setOrientation: (orientation: Orientation) => void;
+    setOriginalImageDimensions: (dimensions: { width: number; height: number }) => void;
     addToHistory: () => void;
     undo: () => void;
     redo: () => void;
@@ -52,6 +58,8 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     historyIndex: -1,
     isCropping: false,
     originalState: null,
+    orientation: 'horizontal',
+    originalImageDimensions: null,
     performanceMetrics: {
         lastFilterTime: null,
         lastOperation: null,
@@ -66,12 +74,18 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     setIsCropping: (isCropping) => set({ isCropping }),
     setSelection: (selection) => set({ selection }),
     setOriginalState: (state) => set({ originalState: state }),
+    setOrientation: (orientation) => set({ orientation }),
+    setOriginalImageDimensions: (dimensions) => set({ originalImageDimensions: dimensions }),
     addToHistory: () => {
         const { canvas, history, historyIndex } = get();
         if (!canvas) return;
 
         const newHistory = history.slice(0, historyIndex + 1);
         const canvasState = canvas.toJSON();
+
+        // Explicitly save canvas dimensions
+        canvasState.width = canvas.getWidth();
+        canvasState.height = canvas.getHeight();
 
         if (newHistory.length >= HISTORY_LIMIT) {
             newHistory.shift();

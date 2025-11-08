@@ -8,7 +8,7 @@ export const RevertTool = () => {
   const canRevert = originalState !== null;
 
   return (
-    <ToolbarButton onClick={revertToOriginal} disabled={!canRevert} label="Revert to Original">
+    <ToolbarButton onClick={revertToOriginal} disabled={!canRevert} label="Revert" showLabel>
       <RefreshCw className="h-5 w-5" />
     </ToolbarButton>
   );

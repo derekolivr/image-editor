@@ -96,17 +96,17 @@ export const ShapesTool = () => {
   };
 
   return (
-    <div className="flex items-center gap-4">
-      <ToolbarButton onClick={addCircle} label="Add Circle">
+    <div className="flex items-center gap-1.5">
+      <ToolbarButton onClick={addCircle} label="Circle" showLabel>
         <Circle className="h-5 w-5" />
       </ToolbarButton>
-      <ToolbarButton onClick={addTriangle} label="Add Triangle">
+      <ToolbarButton onClick={addTriangle} label="Triangle" showLabel>
         <Triangle className="h-5 w-5" />
       </ToolbarButton>
-      <ToolbarButton onClick={addRectangle} label="Add Rectangle">
+      <ToolbarButton onClick={addRectangle} label="Square" showLabel>
         <Square className="h-5 w-5" />
       </ToolbarButton>
-      <ToolbarButton onClick={addLine} label="Add Line">
+      <ToolbarButton onClick={addLine} label="Line" showLabel>
         <Minus className="h-5 w-5" />
       </ToolbarButton>
     </div>

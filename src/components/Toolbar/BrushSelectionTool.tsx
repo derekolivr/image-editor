@@ -27,6 +27,7 @@ export const BrushSelectionTool = () => {
         hasControls: true,
         hasBorders: true,
         evented: true,
+        data: { isSelection: true }, // Mark as selection object
       });
 
       // Ensure image stays at back
@@ -76,33 +77,17 @@ export const BrushSelectionTool = () => {
     setIsDrawing(false);
   };
 
-  const clearSelection = () => {
-    if (!canvas || !selection) return;
-
-    canvas.remove(selection);
-    setSelection(null);
-    canvas.discardActiveObject();
-    canvas.renderAll();
-  };
-
   if (isDrawing) {
     return (
-      <ToolbarButton onClick={cancelBrushSelection} label="Cancel Brush Selection">
+      <ToolbarButton onClick={cancelBrushSelection} label="Cancel" showLabel>
         <XCircle className="h-5 w-5 text-red-500" />
       </ToolbarButton>
     );
   }
 
   return (
-    <div className="flex items-center gap-4">
-      <ToolbarButton onClick={startBrushSelection} label="Brush Selection">
-        <Paintbrush className="h-5 w-5" />
-      </ToolbarButton>
-      {selection && selection.type === "path" && (
-        <ToolbarButton onClick={clearSelection} label="Clear Brush Selection">
-          <XCircle className="h-5 w-5" />
-        </ToolbarButton>
-      )}
-    </div>
+    <ToolbarButton onClick={startBrushSelection} label="Brush" active={isDrawing} showLabel>
+      <Paintbrush className="h-5 w-5" />
+    </ToolbarButton>
   );
 };

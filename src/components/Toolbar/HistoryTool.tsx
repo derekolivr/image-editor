@@ -32,11 +32,11 @@ export const HistoryTool = () => {
   }, [undo, redo]);
 
   return (
-    <div className="flex items-center gap-4">
-      <ToolbarButton onClick={undo} disabled={!canUndo} label="Undo">
+    <div className="flex items-center gap-1.5">
+      <ToolbarButton onClick={undo} disabled={!canUndo} label="Undo" showLabel>
         <Undo2 className="h-5 w-5" />
       </ToolbarButton>
-      <ToolbarButton onClick={redo} disabled={!canRedo} label="Redo">
+      <ToolbarButton onClick={redo} disabled={!canRedo} label="Redo" showLabel>
         <Redo2 className="h-5 w-5" />
       </ToolbarButton>
     </div>

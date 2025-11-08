@@ -14,8 +14,8 @@ export const ImageCanvas = () => {
   useEffect(() => {
     if (canvasRef.current) {
       const canvas = new fabric.Canvas(canvasRef.current, {
-        width: 800,
-        height: 600,
+        width: 1000,
+        height: 800,
         backgroundColor: "#4b5563", // gray-600
       });
       setCanvas(canvas);

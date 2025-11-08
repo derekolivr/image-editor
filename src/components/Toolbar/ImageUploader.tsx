@@ -2,11 +2,13 @@ import { useEditorStore } from "@/store/editorStore";
 import * as fabric from "fabric";
 import type { ChangeEvent } from "react";
 import { initializeFilters } from "@/utils/imageFilters";
+import { centerImageOnCanvas } from "@/utils/canvasHelpers";
 import { Upload } from "lucide-react";
 import { ToolbarButton } from "./ToolbarButton";
 
 export const ImageUploader = () => {
-  const { canvas, setImage, addToHistory, setOriginalState } = useEditorStore();
+  const { canvas, setImage, addToHistory, setOriginalState, setOrientation, setOriginalImageDimensions } =
+    useEditorStore();
 
   const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -20,8 +22,6 @@ export const ImageUploader = () => {
           canvas.clear();
 
           const image = new fabric.Image(imgObj);
-          canvas.setWidth(imgObj.width);
-          canvas.setHeight(imgObj.height);
 
           // Lock the image in place - prevent moving, scaling, rotating via canvas
           image.set({
@@ -37,14 +37,25 @@ export const ImageUploader = () => {
           });
 
           canvas.add(image);
-          canvas.centerObject(image);
-          image.scaleToWidth(canvas.getWidth());
+
+          // Store original image dimensions
+          setOriginalImageDimensions({ width: imgObj.width, height: imgObj.height });
+
+          // Determine initial orientation
+          const initialOrientation = imgObj.width >= imgObj.height ? "horizontal" : "vertical";
+          setOrientation(initialOrientation);
+
+          // Center the image on the fixed canvas
+          centerImageOnCanvas(canvas, image);
+
           setImage(image);
           initializeFilters(); // Initialize filters for the new image
-          canvas.renderAll();
 
           // Save the original state for revert functionality
           const originalCanvasState = canvas.toJSON();
+          // Explicitly save canvas dimensions
+          originalCanvasState.width = canvas.getWidth();
+          originalCanvasState.height = canvas.getHeight();
           setOriginalState(originalCanvasState);
 
           // Add the initial state to history
@@ -59,7 +70,7 @@ export const ImageUploader = () => {
     <div>
       <input type="file" id="image-upload" accept="image/*" onChange={handleImageUpload} className="hidden" />
       <label htmlFor="image-upload" className="cursor-pointer">
-        <ToolbarButton as="div" label="Upload Image">
+        <ToolbarButton as="div" label="Upload" showLabel>
           <Upload className="h-5 w-5" />
         </ToolbarButton>
       </label>

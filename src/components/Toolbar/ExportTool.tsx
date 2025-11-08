@@ -23,7 +23,7 @@ export const ExportTool = () => {
   };
 
   return (
-    <ToolbarButton onClick={handleExport} label="Export as PNG">
+    <ToolbarButton onClick={handleExport} label="Export" showLabel>
       <Download className="h-5 w-5" />
     </ToolbarButton>
   );

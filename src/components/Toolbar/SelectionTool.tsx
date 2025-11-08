@@ -1,7 +1,7 @@
 import { useEditorStore } from "@/store/editorStore";
 import * as fabric from "fabric";
 import { ToolbarButton } from "./ToolbarButton";
-import { Square, XCircle } from "lucide-react";
+import { Square } from "lucide-react";
 
 export const SelectionTool = () => {
   const { canvas, selection, setSelection } = useEditorStore();
@@ -26,6 +26,7 @@ export const SelectionTool = () => {
       selectable: true,
       hasControls: true,
       hasBorders: true,
+      data: { isSelection: true }, // Mark as selection object
     });
 
     canvas.add(rect);
@@ -34,25 +35,9 @@ export const SelectionTool = () => {
     canvas.renderAll();
   };
 
-  const clearSelection = () => {
-    if (!canvas || !selection) return;
-
-    canvas.remove(selection);
-    setSelection(null);
-    canvas.discardActiveObject();
-    canvas.renderAll();
-  };
-
   return (
-    <div className="flex items-center gap-4">
-      <ToolbarButton onClick={createSelection} label="Create Selection">
-        <Square className="h-5 w-5" />
-      </ToolbarButton>
-      {selection && (
-        <ToolbarButton onClick={clearSelection} label="Clear Selection">
-          <XCircle className="h-5 w-5" />
-        </ToolbarButton>
-      )}
-    </div>
+    <ToolbarButton onClick={createSelection} label="Rectangle" showLabel>
+      <Square className="h-5 w-5" />
+    </ToolbarButton>
   );
 };

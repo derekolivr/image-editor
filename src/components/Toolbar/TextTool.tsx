@@ -34,7 +34,7 @@ export const TextTool = () => {
   };
 
   return (
-    <ToolbarButton onClick={addText} label="Add Text">
+    <ToolbarButton onClick={addText} label="Text" showLabel>
       <Type className="h-5 w-5" />
     </ToolbarButton>
   );

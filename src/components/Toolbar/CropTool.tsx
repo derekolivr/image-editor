@@ -39,11 +39,11 @@ export const CropTool = () => {
 
   if (isCropping) {
     return (
-      <div className="flex items-center gap-4">
-        <ToolbarButton onClick={applyCrop} label="Apply Crop">
+      <div className="flex items-center gap-1.5">
+        <ToolbarButton onClick={applyCrop} label="Apply" showLabel>
           <Check className="h-5 w-5 text-green-600" />
         </ToolbarButton>
-        <ToolbarButton onClick={cancelCrop} label="Cancel Crop">
+        <ToolbarButton onClick={cancelCrop} label="Cancel" showLabel>
           <X className="h-5 w-5 text-red-600" />
         </ToolbarButton>
       </div>
@@ -51,7 +51,7 @@ export const CropTool = () => {
   }
 
   return (
-    <ToolbarButton onClick={() => setIsCropping(true)} label="Crop">
+    <ToolbarButton onClick={() => setIsCropping(true)} label="Crop" active={isCropping} showLabel>
       <Scissors className="h-5 w-5" />
     </ToolbarButton>
   );

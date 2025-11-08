@@ -69,3 +69,24 @@ export const restoreCanvasState = (canvas: fabric.Canvas): fabric.Image | null =
     return mainImage;
 };
 
+/**
+ * Centers the image on a fixed-size canvas
+ * Uses large fixed dimensions to accommodate rotations without resizing
+ * IMPORTANT: Does NOT change image scale or canvas dimensions
+ */
+export const centerImageOnCanvas = (canvas: fabric.Canvas, image: fabric.Image) => {
+    // Center the image WITHOUT changing its scale or canvas size
+    const currentScaleX = image.scaleX;
+    const currentScaleY = image.scaleY;
+
+    canvas.centerObject(image);
+
+    // Restore scale (centerObject might have changed it)
+    image.set({
+        scaleX: currentScaleX,
+        scaleY: currentScaleY,
+    });
+
+    canvas.renderAll();
+};
+
