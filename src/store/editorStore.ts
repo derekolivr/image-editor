@@ -7,6 +7,16 @@ type HistoryEntry = {
     canvasState: Record<string, any>; // Fabric canvas JSON
 };
 
+type PerformanceMetrics = {
+    lastFilterTime: number | null;
+    lastOperation: string | null;
+    averageFilterTime: number;
+    filterHistory: Array<{ duration: number; operation: string; timestamp: number }>;
+    totalOperations: number;
+    minFilterTime: number | null;
+    maxFilterTime: number | null;
+};
+
 export interface EditorState {
     image: fabric.Image | null;
     canvas: fabric.Canvas | null;
@@ -16,6 +26,7 @@ export interface EditorState {
     isCropping: boolean;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     originalState: Record<string, any> | null;
+    performanceMetrics: PerformanceMetrics;
     setCanvas: (canvas: fabric.Canvas | null) => void;
     setImage: (image: fabric.Image | null) => void;
     setIsCropping: (isCropping: boolean) => void;
@@ -26,9 +37,11 @@ export interface EditorState {
     undo: () => void;
     redo: () => void;
     revertToOriginal: () => void;
+    addPerformanceMetric: (duration: number, operation: string) => void;
 }
 
 const HISTORY_LIMIT = 20;
+const PERF_HISTORY_LIMIT = 20;
 
 export const useEditorStore = create<EditorState>((set, get) => ({
     image: null,
@@ -38,6 +51,15 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     historyIndex: -1,
     isCropping: false,
     originalState: null,
+    performanceMetrics: {
+        lastFilterTime: null,
+        lastOperation: null,
+        averageFilterTime: 0,
+        filterHistory: [],
+        totalOperations: 0,
+        minFilterTime: null,
+        maxFilterTime: null,
+    },
     setCanvas: (canvas) => set({ canvas }),
     setImage: (image) => set({ image }),
     setIsCropping: (isCropping) => set({ isCropping }),
@@ -165,6 +187,36 @@ export const useEditorStore = create<EditorState>((set, get) => ({
                 history: newHistory,
                 historyIndex: newHistory.length - 1,
             });
+        });
+    },
+    addPerformanceMetric: (duration: number, operation: string) => {
+        const { performanceMetrics } = get();
+        const newEntry = { duration, operation, timestamp: Date.now() };
+
+        // Add to history and limit size
+        const newHistory = [...performanceMetrics.filterHistory, newEntry];
+        if (newHistory.length > PERF_HISTORY_LIMIT) {
+            newHistory.shift();
+        }
+
+        // Calculate statistics
+        const totalOperations = performanceMetrics.totalOperations + 1;
+        const sum = newHistory.reduce((acc, entry) => acc + entry.duration, 0);
+        const averageFilterTime = sum / newHistory.length;
+        const durations = newHistory.map(e => e.duration);
+        const minFilterTime = Math.min(...durations);
+        const maxFilterTime = Math.max(...durations);
+
+        set({
+            performanceMetrics: {
+                lastFilterTime: duration,
+                lastOperation: operation,
+                averageFilterTime,
+                filterHistory: newHistory,
+                totalOperations,
+                minFilterTime,
+                maxFilterTime,
+            },
         });
     },
 }));

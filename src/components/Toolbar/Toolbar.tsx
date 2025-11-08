@@ -3,6 +3,9 @@ import { HistoryTool } from "./HistoryTool";
 import { ImageUploader } from "./ImageUploader";
 import { RotateTool } from "./RotateTool";
 import { SelectionTool } from "./SelectionTool";
+import { BrushSelectionTool } from "./BrushSelectionTool";
+import { ShapesTool } from "./ShapesTool";
+import { TextTool } from "./TextTool";
 import { ExportTool } from "./ExportTool";
 import { RevertTool } from "./RevertTool";
 
@@ -16,6 +19,10 @@ export const Toolbar = () => {
       <HistoryTool />
       <RevertTool />
       <SelectionTool />
+      <BrushSelectionTool />
+      <div className="h-6 border-l border-gray-500" />
+      <ShapesTool />
+      <TextTool />
       <div className="ml-auto">
         <ExportTool />
       </div>

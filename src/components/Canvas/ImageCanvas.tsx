@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import * as fabric from "fabric";
 import { useEditorStore, type EditorState } from "@/store/editorStore";
 import { addCropRectangle, removeCropRectangle } from "@/utils/CropRectangle";
+import { ensureImageAtBack } from "@/utils/canvasHelpers";
 
 export const ImageCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -43,6 +44,15 @@ export const ImageCanvas = () => {
           canvas.remove(selection);
           setSelection(null);
         }
+      });
+
+      // Ensure image stays at back whenever objects are modified
+      canvas.on("object:added", () => {
+        ensureImageAtBack(canvas);
+      });
+
+      canvas.on("object:modified", () => {
+        ensureImageAtBack(canvas);
       });
 
       return () => {

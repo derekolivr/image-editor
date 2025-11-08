@@ -48,8 +48,10 @@ const applyFilterToRegion = (
 };
 
 export const applyBrightness = (value: number) => {
-    const { image, canvas, selection, addToHistory } = useEditorStore.getState();
+    const { image, canvas, selection, addToHistory, addPerformanceMetric } = useEditorStore.getState();
     if (!image || !canvas) return;
+
+    const startTime = performance.now();
 
     if (selection) {
         // Apply to selected region only
@@ -59,7 +61,11 @@ export const applyBrightness = (value: number) => {
                 img.filters = [filter];
                 img.applyFilters();
             },
-            () => addToHistory()
+            () => {
+                const endTime = performance.now();
+                addPerformanceMetric(endTime - startTime, 'brightness');
+                addToHistory();
+            }
         );
     } else {
         // Apply to whole image
@@ -67,13 +73,17 @@ export const applyBrightness = (value: number) => {
         image.filters![0] = filter;
         image.applyFilters();
         canvas.renderAll();
+        const endTime = performance.now();
+        addPerformanceMetric(endTime - startTime, 'brightness');
         addToHistory();
     }
 };
 
 export const applyContrast = (value: number) => {
-    const { image, canvas, selection, addToHistory } = useEditorStore.getState();
+    const { image, canvas, selection, addToHistory, addPerformanceMetric } = useEditorStore.getState();
     if (!image || !canvas) return;
+
+    const startTime = performance.now();
 
     if (selection) {
         // Apply to selected region only
@@ -83,7 +93,11 @@ export const applyContrast = (value: number) => {
                 img.filters = [filter];
                 img.applyFilters();
             },
-            () => addToHistory()
+            () => {
+                const endTime = performance.now();
+                addPerformanceMetric(endTime - startTime, 'contrast');
+                addToHistory();
+            }
         );
     } else {
         // Apply to whole image
@@ -91,13 +105,17 @@ export const applyContrast = (value: number) => {
         image.filters![1] = filter;
         image.applyFilters();
         canvas.renderAll();
+        const endTime = performance.now();
+        addPerformanceMetric(endTime - startTime, 'contrast');
         addToHistory();
     }
 };
 
 export const applyBlur = (value: number) => {
-    const { image, canvas, selection, addToHistory } = useEditorStore.getState();
+    const { image, canvas, selection, addToHistory, addPerformanceMetric } = useEditorStore.getState();
     if (!image || !canvas) return;
+
+    const startTime = performance.now();
 
     if (selection) {
         // Apply to selected region only
@@ -107,7 +125,11 @@ export const applyBlur = (value: number) => {
                 img.filters = [filter];
                 img.applyFilters();
             },
-            () => addToHistory()
+            () => {
+                const endTime = performance.now();
+                addPerformanceMetric(endTime - startTime, 'blur');
+                addToHistory();
+            }
         );
     } else {
         // Apply to whole image
@@ -115,13 +137,17 @@ export const applyBlur = (value: number) => {
         image.filters![2] = filter;
         image.applyFilters();
         canvas.renderAll();
+        const endTime = performance.now();
+        addPerformanceMetric(endTime - startTime, 'blur');
         addToHistory();
     }
 };
 
 export const applyGrayscale = () => {
-    const { image, canvas, selection, addToHistory } = useEditorStore.getState();
+    const { image, canvas, selection, addToHistory, addPerformanceMetric } = useEditorStore.getState();
     if (!image || !canvas) return;
+
+    const startTime = performance.now();
 
     if (selection) {
         // Apply to selected region only
@@ -131,7 +157,11 @@ export const applyGrayscale = () => {
                 img.filters = [filter];
                 img.applyFilters();
             },
-            () => addToHistory()
+            () => {
+                const endTime = performance.now();
+                addPerformanceMetric(endTime - startTime, 'grayscale');
+                addToHistory();
+            }
         );
     } else {
         // Apply to whole image
@@ -139,6 +169,8 @@ export const applyGrayscale = () => {
         image.filters![3] = filter;
         image.applyFilters();
         canvas.renderAll();
+        const endTime = performance.now();
+        addPerformanceMetric(endTime - startTime, 'grayscale');
         addToHistory();
     }
 };
@@ -155,8 +187,10 @@ export const removeGrayscale = () => {
 };
 
 export const applySepia = () => {
-    const { image, canvas, selection, addToHistory } = useEditorStore.getState();
+    const { image, canvas, selection, addToHistory, addPerformanceMetric } = useEditorStore.getState();
     if (!image || !canvas) return;
+
+    const startTime = performance.now();
 
     if (selection) {
         // Apply to selected region only
@@ -166,7 +200,11 @@ export const applySepia = () => {
                 img.filters = [filter];
                 img.applyFilters();
             },
-            () => addToHistory()
+            () => {
+                const endTime = performance.now();
+                addPerformanceMetric(endTime - startTime, 'sepia');
+                addToHistory();
+            }
         );
     } else {
         // Apply to whole image
@@ -174,6 +212,8 @@ export const applySepia = () => {
         image.filters![4] = filter;
         image.applyFilters();
         canvas.renderAll();
+        const endTime = performance.now();
+        addPerformanceMetric(endTime - startTime, 'sepia');
         addToHistory();
     }
 };
